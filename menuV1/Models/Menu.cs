@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using static System.Console;
 
 namespace menuV1.Models
 {
@@ -10,7 +9,7 @@ namespace menuV1.Models
         static string[] _options;
         static string _prompt;
 
-        //a method seems like a constructor
+        //a method that seems like a constructor
         static public void Initialize(string prompt, string[] options)
         {
             _prompt = prompt;
@@ -18,42 +17,18 @@ namespace menuV1.Models
             _selectedIndex = 0;
         }
 
-        static private void DisplayOptions()
-        {
-            Console.WriteLine(_prompt);
-            for (int i = 0; i < _options.Length; i++)
-            {
-                string currentOption = _options[i];
-                string prefix;
-                if (i == _selectedIndex)
-                {
-                    prefix = "*";
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.BackgroundColor = ConsoleColor.White;
-                }
-                else
-                {
-                    prefix = " ";
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.Black;
-                }
-                Console.WriteLine($"{prefix} << {currentOption} >>");
-            }
-            Console.ResetColor();
-        }
-
         static public int Run()
         {
             ConsoleKey keyPressed;
             do
             {
-                Console.Clear();
+                Clear();
                 DisplayOptions();
 
-                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                ConsoleKeyInfo keyInfo = ReadKey(true);
                 keyPressed = keyInfo.Key;
 
-                // aggiorno il selected index in base alla freccia usata
+                // update selctedIndex based on pressed arrow
                 if (keyPressed == ConsoleKey.UpArrow)
                 {
                     _selectedIndex--;
@@ -67,7 +42,32 @@ namespace menuV1.Models
                         _selectedIndex = 0;
                 }
             } while (keyPressed != ConsoleKey.Enter);
+
             return _selectedIndex;
+        }
+
+        static private void DisplayOptions()
+        {
+            WriteLine(_prompt);
+            for (int i = 0; i < _options.Length; i++)
+            {
+                string currentOption = _options[i];
+                string prefix;
+                if (i == _selectedIndex)
+                {
+                    prefix = "*";
+                    ForegroundColor = ConsoleColor.Black;
+                    BackgroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    prefix = " ";
+                    ForegroundColor = ConsoleColor.White;
+                    BackgroundColor = ConsoleColor.Black;
+                }
+                WriteLine($"{prefix} << {currentOption} >>");
+            }
+            ResetColor();
         }
     }
 }
